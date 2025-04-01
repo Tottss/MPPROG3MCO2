@@ -76,7 +76,7 @@ public class AppFrame extends JFrame {
      * </ul>
      * The game view is initialized later when starting a game.
      */
-    public AppFrame() {
+    public AppFrame () {
         setTitle("Jungle King");
         setSize(1100, 735);
         setResizable(false);
@@ -87,7 +87,7 @@ public class AppFrame extends JFrame {
         
         menuView = new MenuView(this);
         animalSelectionView = new AnimalSelectionGUI(this);
-        gameView = null; // Will be initialized after selection
+        gameView = null; // will be initialized after selection
         
         mainPanel.add(menuView, "Menu");
         mainPanel.add(animalSelectionView, "AnimalSelection");
@@ -98,13 +98,13 @@ public class AppFrame extends JFrame {
     /**
      * Returns to the main menu view.
      */
-	public void returnToMenu() {
+	public void returnToMenu () {
         cardLayout.show(mainPanel, "Menu");
     }
     /**
      * Switches to the animal selection view.
      */
-    public void switchToAnimalSelection() {
+    public void switchToAnimalSelection () {
         cardLayout.show(mainPanel, "AnimalSelection");
     }
     /**
@@ -113,10 +113,10 @@ public class AppFrame extends JFrame {
      * @param firstPlayer The player number (1 or 2) who will make the first move
      * @throws IllegalArgumentException if firstPlayer is not 1 or 2
      */
-    public void startGameWithFirstPlayer(int firstPlayer) {
-        if (gameView != null) {
+    public void startGameWithFirstPlayer (int firstPlayer) {
+        if (gameView != null)
             mainPanel.remove(gameView);
-        }
+        
 		this.firstPlayer = firstPlayer;
         gameView = new JungleKingBoard(firstPlayer, this);
         mainPanel.add(gameView, "Game");
@@ -127,7 +127,7 @@ public class AppFrame extends JFrame {
      * Switches back to the main menu view.
      * Alias for {@link #returnToMenu()}.
      */
-    public void switchToMenu() {
+    public void switchToMenu () {
         cardLayout.show(mainPanel, "Menu");
     }
 
@@ -140,10 +140,10 @@ public class AppFrame extends JFrame {
      *   <li>All view configurations</li>
      * </ul>
      */
-    public void resetGame() {
-        if (gameView != null) {
+    public void resetGame () {
+        if (gameView != null)
             mainPanel.remove(gameView);
-        }
+        
         gameView = new JungleKingBoard(firstPlayer,this);
         mainPanel.add(gameView, "Game");
     }
