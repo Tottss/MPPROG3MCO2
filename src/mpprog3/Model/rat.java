@@ -39,6 +39,21 @@ public class rat extends Piece {
 		else return (piece.getStrength() == 8 || piece instanceof rat) ;
 	}
 
+    /**
+     * Determines if this rat can capture the specified target piece,
+     * applying special water behavior rules for rats.
+     * <p>
+     * Special rat capture rules:
+     * <ul>
+     *   <li>Rats in water cannot capture elephants on land</li>
+     *   <li>Otherwise follows standard capture rules (strength comparison)</li>
+     * </ul>
+     *
+     * @param target The piece being targeted for capture
+     * @return false if rat is in water and target is elephant on land,
+     *         otherwise returns super.canCapture(target)
+     * @see Piece#canCapture(Piece)
+     */
     @Override
     public boolean canCapture(Piece target) {
         // Rats in water can't capture elephants on land
@@ -48,6 +63,22 @@ public class rat extends Piece {
         return super.canCapture(target);
     }
 
+    /**
+     * Determines if this rat can be captured by the specified attacker piece,
+     * applying special water behavior and weakness rules for rats.
+     * <p>
+     * Special rat vulnerability rules:
+     * <ul>
+     *   <li>Weak rats can always be captured (no water protection)</li>
+     *   <li>Rats in water cannot be captured by non-swimming animals</li>
+     *   <li>Otherwise follows standard vulnerability rules</li>
+     * </ul>
+     *
+     * @param attacker The piece attempting to capture this rat
+     * @return true if rat is weak or attacker can capture normally,
+     *         false if rat is in water and attacker cannot swim
+     * @see Piece#canBeCapturedBy(Piece)
+     */
     @Override
     public boolean canBeCapturedBy(Piece attacker) {
         // Rats in water can't be captured by land animals
@@ -59,10 +90,7 @@ public class rat extends Piece {
         return super.canBeCapturedBy(attacker);
     }
 
-    @Override
-    public boolean isInWater() {
-        return this.getCurrentTerrain() == '~';
-    }
+    
 
     
 

@@ -39,6 +39,7 @@ public class Piece {
 
 	public boolean cannotEat;
 
+	
 	protected char currentTerrain;
 
     /**
@@ -132,13 +133,25 @@ public class Piece {
 		this.c = c;
 	}
 	
+	/**
+	 * Sets this piece's strength value.
+	 * <p>
+	 * Strength determines:
+	 * <ul>
+	 *   <li>Capture capabilities (through {@link #canCapture(Piece)})</li>
+	 *   <li>Vulnerability to capture (through {@link #canBeCapturedBy(Piece)})</li>
+	 * </ul>
+	 *
+	 * @param strength The new strength value (must be positive)
+	 * @throws IllegalArgumentException if strength is non-positive
+	 */
 	public void setStrength(int strength){
 		this.strength = strength;
 	}
 	/**
 	 * Determines if the current piece can capture another piece.
 	 * 
-	 * @param piece The target piece to be captured.
+	 * @param target The target piece to be captured.
 	 * @return true if the piece is captured, false otherwise.
 	 */
 	public boolean capture(Piece target) {
@@ -153,15 +166,56 @@ public class Piece {
 		return this.getStrength() >= target.getStrength();
 	}
 	
+	/**
+	 * Determines if this piece can capture the specified target piece
+	 * based on standard strength comparison rules.
+	 * <p>
+	 * Default capture rules:
+	 * <ul>
+	 *   <li>Can capture pieces of equal or lesser strength</li>
+	 *   <li>Cannot capture stronger pieces</li>
+	 * </ul>
+	 * 
+	 * Subclasses should override this to implement special capture behaviors.
+	 *
+	 * @param target The piece being targeted for capture (must not be null)
+	 * @return true if this piece's strength >= target's strength, false otherwise
+	 * @throws NullPointerException if target is null
+	 * @see #getStrength()
+	 */
 	public boolean canCapture(Piece target) {
         // Default capture rules - can capture equal or weaker pieces
         return this.getStrength() >= target.getStrength();
     }
 
+	/**
+	 * Checks if this piece is currently positioned on water terrain.
+	 * Water terrain is represented by the '~' character on the game board.
+	 *
+	 * @return true if the piece is on water ('~'), false otherwise
+	 * @see #getCurrentTerrain()
+	 */
 	public boolean isInWater() {
         return this.getCurrentTerrain() == '~';
     }
 
+	/**
+	 * Determines if this piece can be captured by the specified attacking piece
+	 * based on standard strength comparison rules.
+	 * <p>
+	 * Default vulnerability rules:
+	 * <ul>
+	 *   <li>Can be captured by pieces of equal or greater strength</li>
+	 *   <li>Cannot be captured by weaker pieces</li>
+	 * </ul>
+	 * 
+	 * Subclasses should override this to implement special vulnerability behaviors.
+	 *
+	 * @param attacker The piece attempting to capture this piece (must not be null)
+	 * @return true if attacker's strength >= this piece's strength, false otherwise
+	 * @throws NullPointerException if attacker is null
+	 * @see #getStrength() 
+	 */
     public boolean canBeCapturedBy(Piece attacker) {
         // Default rules - can be captured by equal or stronger pieces
         return attacker.getStrength() >= this.getStrength();
@@ -202,11 +256,23 @@ public class Piece {
 		weak = true;
 	}
 	
+	/**
+	 * The getCurrentTerrain function in Java returns the current terrain as a character.
+	 * 
+	 * @return The method getCurrentTerrain() is returning a character representing the current terrain.
+	 */
 	public char getCurrentTerrain() {
         return currentTerrain;
     }
 
-    public void setCurrentTerrain(char terrain) {
+    /**
+	 * This Java function sets the current terrain to the specified character.
+	 * 
+	 * @param terrain The `setCurrentTerrain` method sets the current terrain to the specified
+	 * character value passed as a parameter. This can be useful in a game or simulation where
+	 * different characters represent different types of terrain (e.g., grass, water, mountains).
+	 */
+	public void setCurrentTerrain(char terrain) {
         this.currentTerrain = terrain;
     }
 
@@ -265,6 +331,13 @@ public class Piece {
 		return false;
 	}
 	
+
+	/**
+	 * The `toString` method is overridden to return the `pieceName` as a string representation of the
+	 * object.
+	 * 
+	 * @return The `pieceName` variable is being returned as a String.
+	 */
 	@Override
 	public String toString () {
 		return pieceName;

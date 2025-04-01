@@ -1,3 +1,5 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "docwriter.style": "Javadoc",
+    "docwriter.progress.trackMethods": true
 }
