@@ -36,7 +36,7 @@ public class rat extends Piece {
 		if (piece.getWeak())
 			return true;
     
-		else return piece.getStrength() == 8;
+		else return (piece.getStrength() == 8 || piece instanceof rat) ;
 	}
 
     @Override
@@ -51,6 +51,8 @@ public class rat extends Piece {
     @Override
     public boolean canBeCapturedBy(Piece attacker) {
         // Rats in water can't be captured by land animals
+        if(this.getWeak())
+            return true;
         if (this.isInWater() && !attacker.canSwim()) {
             return false;
         }

@@ -344,11 +344,13 @@ public class JungleKingBoard extends JPanel {
 						selectedPiece = clickedPiece; // clicked on own piece; change selection
 					
 					else { // attempt capture
-						if (selectedPiece.capture(clickedPiece) && board.isValidMove(selectedPiece, row, col)) {
+						if (selectedPiece.capture(clickedPiece)) {
 							board.movePiece(selectedPiece, row, col);
 							board.trapped(selectedPiece);
+                            System.out.println( selectedPiece.getPieceName() + "weak ?" + selectedPiece.getWeak());
 							endTurn();
 						}
+                        System.out.println("valid move jkb" + board.isValidMove(selectedPiece, row, col));
 					}
 				}
 			}
@@ -358,7 +360,7 @@ public class JungleKingBoard extends JPanel {
 				if (board.isValidMove(selectedPiece, row, col)) {
 					board.movePiece(selectedPiece, row, col);
 					board.trapped(selectedPiece);
-
+                    System.out.println( selectedPiece.getPieceName() + "weak ?" + selectedPiece.getWeak());
 					endTurn();
 				}
 			}

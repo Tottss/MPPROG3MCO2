@@ -205,7 +205,7 @@ public boolean movePiece(Piece piece, int newR, int newC) {
         
     if (!isValidMove(piece, newR, newC))
         return false;
-    
+    System.out.println("valid move" + isValidMove(piece, newR, newC));
     Grid targetTile = board[newR][newC];
     String m = determineMove(oldR, oldC, newR, newC);
     
@@ -252,9 +252,11 @@ public boolean movePiece(Piece piece, int newR, int newC) {
     // Handle normal captures
     if (targetTile.getObject() instanceof Piece) {
         Piece targetPiece = (Piece) targetTile.getObject();
-        if (!piece.canCapture(targetPiece) || !targetPiece.canBeCapturedBy(piece))
+        if (!piece.capture(targetPiece)){
+			System.out.println("no captures"); 
             return false;
-            
+		}
+        System.out.println("captures");    
         piece.setPosition(newR, newC);
         targetTile.setPiece(piece, newR, newC);
         board[oldR][oldC].setNull();
@@ -399,12 +401,12 @@ public boolean movePiece(Piece piece, int newR, int newC) {
 			System.out.println("rat in lake col");
 			return false;
 		}
-
+		
 		else if (targetTile.getObject() instanceof Piece) {
 			Piece targetPiece = targetTile.getPiece();
 			if (piece.getNumber() == targetPiece.getNumber()) // ensures it can only capture/move to opposing pieces
 				return false;
-			if (!piece.isStronger(targetPiece))
+			if (!piece.capture(targetPiece))
 				return false;
 		}
 		return true;
@@ -552,9 +554,7 @@ public boolean movePiece(Piece piece, int newR, int newC) {
 		if (isTrap(piece.getRow(), piece.getColumn()) == piece.getPlayerNumber()){
 		piece.setWeak();
 		}
-		else if (isTrap(piece.getRow(), piece.getColumn()) == piece.getPlayerNumber()){
-			piece.setWeak();
-			}
+		
 		else{
 			piece.setNotWeak();
 		}
@@ -582,26 +582,6 @@ public boolean movePiece(Piece piece, int newR, int newC) {
 		return -1;
 	 }
 
-	 /**
-	 * Modifies a rat's strength based on its position in water terrain.
-	 * <p>
-	 * Implements special game rules for rats:
-	 * <ul>
-	 *   <li>When in water ('~' terrain), rat becomes unkillable (strength = 9)</li>
-	 *   <li>When not in water, rat returns to normal strength (strength = 1)</li>
-	 * </ul>
-	 * 
-	 * <p>This ability allows rats to:
-	 * <ul>
-	 *   <li>Survive against stronger pieces while in water</li>
-	 *   <li>Maintain normal vulnerability on land</li>
-	 * </ul>
-	 *
-	 * @param piece The rat piece to modify (must be instance of {@link rat})
-	 * @throws IllegalArgumentException if piece is not a rat instance
-	 * @see rat
-	 * @see Piece#setStrength(int)
-	 */
-
+	 
 	
 }

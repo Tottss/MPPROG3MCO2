@@ -143,9 +143,13 @@ public class Piece {
 	 */
 	public boolean capture(Piece target) {
 		// Check if this capture is allowed by both pieces
+		if (target.getWeak()){
+			return true;
+		}
 		if (!target.canBeCapturedBy(this) || !this.canCapture(target)) {
 			return false;
 		}
+
 		return this.getStrength() >= target.getStrength();
 	}
 	
@@ -157,7 +161,7 @@ public class Piece {
 	public boolean isInWater() {
         return this.getCurrentTerrain() == '~';
     }
-	
+
     public boolean canBeCapturedBy(Piece attacker) {
         // Default rules - can be captured by equal or stronger pieces
         return attacker.getStrength() >= this.getStrength();

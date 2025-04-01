@@ -64,7 +64,7 @@ public class elephant extends Piece {
 		// return true if piece gets captured, false if piece doesn't get captured
 		
 		if (piece.getWeak()) {
-			piece.setDead();
+            System.err.println("weakrat");
 			return true;
 		}
 		
