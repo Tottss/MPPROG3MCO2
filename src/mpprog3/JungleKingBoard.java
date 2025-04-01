@@ -347,7 +347,6 @@ public class JungleKingBoard extends JPanel {
 						if (selectedPiece.capture(clickedPiece) && board.isValidMove(selectedPiece, row, col)) {
 							board.movePiece(selectedPiece, row, col);
 							board.trapped(selectedPiece);
-                            board.unkillableRat(selectedPiece);
 							endTurn();
 						}
 					}
@@ -359,7 +358,7 @@ public class JungleKingBoard extends JPanel {
 				if (board.isValidMove(selectedPiece, row, col)) {
 					board.movePiece(selectedPiece, row, col);
 					board.trapped(selectedPiece);
-                    board.unkillableRat(selectedPiece);
+
 					endTurn();
 				}
 			}
