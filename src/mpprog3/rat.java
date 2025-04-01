@@ -35,6 +35,7 @@ public class rat extends Piece {
     public boolean isStronger (Piece piece) {
 		if (piece.getWeak())
 			return true;
+    
 		else return piece.getStrength() == 8;
 	}
 

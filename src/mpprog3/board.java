@@ -302,18 +302,19 @@ public class board {
 			}
 		}
 		
-		if (targetTile.getObject() instanceof Piece) { // capturing opposing piece
+		if (targetTile.getObject() instanceof Piece && piece.cannotEat == false) { // capturing opposing piece
 			Piece targetPiece = targetTile.getPiece();
 			
-			if (piece.capture(targetPiece)) { // capture piece
+			if (piece.capture(targetPiece) ) { // capture piece
 				piece.setPosition(newR, newC); // update position of piece
 				targetTile.setPiece(piece, newR, newC); // move piece on board
 				board[oldR][oldC].setNull();
 				System.out.println("piece moves here lake");
 				return true;
 			}
-		}
 		
+		}
+		else{
 		piece.setPosition(newR, newC); // update positions
 		// after moving, set the old position back to its original object
 		
@@ -322,7 +323,10 @@ public class board {
 		board[newR][newC].setPiece(piece, newR, newC); // update object on board to its new position
 		board[oldR][oldC].setNull();
 		
-		return valid;
+		return true;
+		}
+		return false;
+		
 	}
 	
 
@@ -430,6 +434,7 @@ public class board {
 			return false;
 		move = determineMove(currR, currC, newR, newC);
 		Grid targetTile = board[newR][newC];
+		
 		
 		if (isRestrictedTile(piece, newR, newC)) // if targetTile is a friendly trap or home base
 			return false;
@@ -661,9 +666,13 @@ public class board {
 	 public void unkillableRat(Piece piece){
 		if (piece instanceof rat && board[piece.getRow()][piece.getColumn()].getTerrain() == '~'){
 			piece.setStrength(9);
+			piece.cannotEat = true;
+			System.out.println("rat unkillable");
 		}
 		else if(piece instanceof rat && !(board[piece.getRow()][piece.getColumn()].getTerrain() == '~')){
 			piece.setStrength(1);
+			piece.cannotEat = false;
+			System.out.println("rat killable");
 		}
 	 }
 	

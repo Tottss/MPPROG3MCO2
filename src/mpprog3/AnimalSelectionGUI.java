@@ -1,4 +1,4 @@
-package mpprog3
+package mpprog3;
 
 import java.awt.*;
 import java.awt.event.*;

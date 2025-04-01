@@ -37,6 +37,8 @@ public class Piece {
     /** Current column position on the board (0-8) */
     protected int c;
 
+	public boolean cannotEat;
+
     /**
      * Constructs a new game piece with specified attributes.
      * 
@@ -175,6 +177,7 @@ public class Piece {
 		this.playerNo = playerNo;
 	}
 	
+
 	/**
 	 * Marks the piece as dead.
 	 */
