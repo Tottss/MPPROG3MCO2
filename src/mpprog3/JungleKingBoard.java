@@ -92,14 +92,14 @@ public class JungleKingBoard extends JPanel {
      * @param appFrame The main application frame for navigation
      * @throws IllegalArgumentException if turn is not 1 or 2
      */
-    public JungleKingBoard(int turn, AppFrame appFrame) {
+    public JungleKingBoard (int turn, AppFrame appFrame) {
         this.appFrame = appFrame;
         setLayout(new BorderLayout());
         pieces = new ArrayList<>();
         board = new board();
         currentPlayer = turn;
         
-        // Create top panel with turn indicator on right
+        // create top panel with turn indicator on right
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setOpaque(false); // Transparent background
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 20));
@@ -114,32 +114,32 @@ public class JungleKingBoard extends JPanel {
         loadImages();
         setPreferredSize(new Dimension(COLS * TILE_SIZE, ROWS * TILE_SIZE));
         
-        // Create bottom panel with buttons on right
+        // create bottom panel with buttons on right
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout()); // Use BorderLayout for main panel
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 20));
 
-        // Create a vertical box for the buttons
+        // create a vertical box for the buttons
         Box buttonBox = Box.createVerticalBox();
         buttonBox.setOpaque(false);
 
         JButton menuButton = new JButton("Main Menu");
         styleButton(menuButton);
-        menuButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // Right-align within box
+        menuButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // right-align within box
         menuButton.addActionListener(e -> appFrame.returnToMenu());
 
         JButton exitButton = new JButton("Exit Game");
         styleButton(exitButton);
-        exitButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // Right-align within box
+        exitButton.setAlignmentX(Component.RIGHT_ALIGNMENT); // right-align within box
         exitButton.addActionListener(e -> System.exit(0));
 
-        // Add buttons with spacing
+        // add buttons with spacing
         buttonBox.add(menuButton);
         buttonBox.add(Box.createRigidArea(new Dimension(0, 5))); // 5px vertical space
         buttonBox.add(exitButton);
 
-        // Add the button box to the EAST (right side) of the bottom panel
+        // add the button box to the EAST (right side) of the bottom panel
         bottomPanel.add(buttonBox, BorderLayout.EAST);
 
         add(bottomPanel, BorderLayout.SOUTH);
@@ -159,7 +159,7 @@ public class JungleKingBoard extends JPanel {
      * 
      * @param button The button to style
      */
-    private void styleButton(JButton button) {
+    private void styleButton (JButton button) {
         button.setFont(new Font("Arial", Font.PLAIN, 14));
         button.setPreferredSize(new Dimension(120, 30));
         button.setFocusPainted(false);
