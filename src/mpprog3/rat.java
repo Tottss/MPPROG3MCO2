@@ -39,7 +39,31 @@ public class rat extends Piece {
 		else return piece.getStrength() == 8;
 	}
 
+    @Override
+    public boolean canCapture(Piece target) {
+        // Rats in water can't capture elephants on land
+        if (this.isInWater() && target instanceof elephant && !target.isInWater()) {
+            return false;
+        }
+        return super.canCapture(target);
+    }
+
+    @Override
+    public boolean canBeCapturedBy(Piece attacker) {
+        // Rats in water can't be captured by land animals
+        if (this.isInWater() && !attacker.canSwim()) {
+            return false;
+        }
+        return super.canBeCapturedBy(attacker);
+    }
+
+    @Override
+    public boolean isInWater() {
+        return this.getCurrentTerrain() == '~';
+    }
+
     
+
 	/**
      * Indicates whether this Rat can swim in water tiles.
      * Rats are the only pieces that can occupy water tiles.

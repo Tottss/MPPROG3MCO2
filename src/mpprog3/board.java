@@ -191,140 +191,82 @@ public class board {
 		}
 	}
 	/**
-	 * Moves a given piece in the specified direction if the move is valid.
-	 * <p>
-	 * The method ensures the following:
-	 * <ul>
-	 *     <li>The piece is alive before moving.</li>
-	 *     <li>The move is validated using {@code isValidMove}.</li>
-	 *     <li>The piece's position is updated upon a successful move.</li>
-	 *     <li>If the piece enters an opposing trap, it becomes weakened.</li>
-	 *     <li>If the piece moves into an opposing home base, the game ends.</li>
-	 *     <li>If the piece captures an opponent's piece, the opponent's piece is removed.</li>
-	 *     <li>For special movements (e.g., lions/tigers crossing lakes), the logic ensures they follow game rules.</li>
-	 * </ul>
-	 *
-	 * @param piece The piece that is attempting to move.
-	 * @param m The direction of the move ('W', 'S', 'A', 'D' for up, down, left, right).
-	 * @return true if the move is successfully executed, false otherwise.
-	 */	
-	public boolean movePiece (Piece piece, int newR, int newC) { // updates position of piece; returns value of isValidMove()
-		int oldR = piece.getRow(), oldC = piece.getColumn();
-		boolean valid = false;
-		int crossR = -1,CrossC = -1 ;
-		
-		if (!piece.getAlive()) 
-			return false;
-			
-		if (!isValidMove(piece, newR, newC)){
-
-			return false;
-		}
-		
-		valid = true;
-		
-		Grid targetTile = board[newR][newC];
-		String m = determineMove(oldR, oldC, newR, newC);
-		
-		if (targetTile.getObject().equals('~') && piece.canCross()) { // for lions and tigers only
-			System.out.println("piece crosses lake");
-			if ("W".equals(m)){
-				targetTile = board[newR - 2][newC];
-				crossR = newR - 2;
-				CrossC = newC;
-				System.out.println("go up");
-
-
-			}
-			else if ("S".equals(m)){
-				targetTile = board[newR + 2][newC];
-				crossR = newR + 2;
-				CrossC = newC;
-				System.out.println("go down");
-			}
-			else if ("A".equals(m)){
-				targetTile = board[newR][newC - 3];
-				crossR = newR;
-				CrossC = newC - 3;
-				System.out.println("go left");
-			}
-			else if ("D".equals(m)){
-				targetTile = board[newR][newC + 3];
-				crossR = newR;
-				CrossC = newC + 3;
-				System.out.println("go right");
-			}
-			if (targetTile.getObject() instanceof Piece) { // if resulting tile contains an opposing piece
-				Piece targetPiece = targetTile.getPiece();
-				
-				if (piece.capture(targetPiece)) { // piece is stronger/as strong as
-					piece.setPosition(crossR,CrossC);
-					targetTile.setPiece(piece, crossR,CrossC);
-					board[oldR][oldC].setNull();
-					return true;
-				}
-				else { // piece is weaker
-					piece.setPosition(oldR, oldC); // reverts to original position
-					return false;
-				}
-			}
-			
-			else {
-				if ("W".equals(m)){
-					piece.setPosition(newR - 2, newC); 
-					
-					
-					board[newR - 2][newC].setPiece(piece, newR - 2, newC); 
-					board[oldR][oldC].setNull();
-				}
-				else if ("S".equals(m)){
-					piece.setPosition(newR + 3, newC); // update positions
-					// after moving, set the old position back to its original object
-					
-					board[newR + 2][newC].setPiece(piece, newR + 2, newC); // update object on board to its new position
-					board[oldR][oldC].setNull();
-				}	
-				else if ("A".equals(m)){
-					piece.setPosition(newR, newC - 3); // update positions
-					// after moving, set the old position back to its original object
-					
-					board[newR][newC - 3].setPiece(piece, newR, newC - 3); // update object on board to its new position
-					board[oldR][oldC].setNull();
-				}
-				else if ("D".equals(m)){
-					piece.setPosition(newR, newC + 3); // update positions
-					// after moving, set the old position back to its original object
-				
-					board[newR][newC + 3].setPiece(piece, newR, newC + 3); // update object on board to its new position
-					board[oldR][oldC].setNull();
-				}
-				return true; // there's no piece on resulting tile
-			}
-		}
-		
-		if (targetTile.getObject() instanceof Piece && piece.cannotEat == false) { // capturing opposing piece
-			Piece targetPiece = targetTile.getPiece();
-			
-			if (piece.capture(targetPiece) ) { // capture piece
-				piece.setPosition(newR, newC); // update position of piece
-				targetTile.setPiece(piece, newR, newC); // move piece on board
-				board[oldR][oldC].setNull();
-				System.out.println("piece moves here lake");
-				return true;
-			}
-		
-		}
-		piece.setPosition(newR, newC); // update positions
-		// after moving, set the old position back to its original object
-		
-		System.out.println("Moving piece from (" + oldR + "," + oldC + ") to (" + newR + "," + newC + ")");
-		
-		board[newR][newC].setPiece(piece, newR, newC); // update object on board to its new position
-		board[oldR][oldC].setNull();
-		
-		return valid;
-		
-	}
+ * Moves a piece to new coordinates while handling all game rules
+ * @param piece The piece to move
+ * @param newR Target row (0-6)
+ * @param newC Target column (0-8)
+ * @return true if move was successful, false otherwise
+ */
+public boolean movePiece(Piece piece, int newR, int newC) {
+    int oldR = piece.getRow(), oldC = piece.getColumn();
+    
+    if (!piece.getAlive()) 
+        return false;
+        
+    if (!isValidMove(piece, newR, newC))
+        return false;
+    
+    Grid targetTile = board[newR][newC];
+    String m = determineMove(oldR, oldC, newR, newC);
+    
+    // Update piece's current terrain
+    piece.setCurrentTerrain(targetTile.getTerrain());
+    
+    // Handle lake crossing (Lions/Tigers)
+    if (targetTile.getTerrain() == '~' && piece.canCross()) {
+        int crossR = newR, crossC = newC;
+        
+        if ("W".equals(m)) {
+            crossR = newR - 2;
+        } else if ("S".equals(m)) {
+            crossR = newR + 2;
+        } else if ("A".equals(m)) {
+            crossC = newC - 3;
+        } else if ("D".equals(m)) {
+            crossC = newC + 3;
+        }
+        
+        if (!isWithinBounds(crossR, crossC)) 
+            return false;
+            
+        targetTile = board[crossR][crossC];
+        piece.setCurrentTerrain(targetTile.getTerrain());
+        
+        if (targetTile.getObject() instanceof Piece) {
+            Piece targetPiece = (Piece) targetTile.getObject();
+            if (!piece.canCapture(targetPiece) || !targetPiece.canBeCapturedBy(piece))
+                return false;
+                
+            piece.setPosition(crossR, crossC);
+            targetTile.setPiece(piece, crossR, crossC);
+            board[oldR][oldC].setNull();
+            return true;
+        }
+        
+        piece.setPosition(crossR, crossC);
+        board[crossR][crossC].setPiece(piece, crossR, crossC);
+        board[oldR][oldC].setNull();
+        return true;
+    }
+    
+    // Handle normal captures
+    if (targetTile.getObject() instanceof Piece) {
+        Piece targetPiece = (Piece) targetTile.getObject();
+        if (!piece.canCapture(targetPiece) || !targetPiece.canBeCapturedBy(piece))
+            return false;
+            
+        piece.setPosition(newR, newC);
+        targetTile.setPiece(piece, newR, newC);
+        board[oldR][oldC].setNull();
+        return true;
+    }
+    
+    // Handle normal movement
+    piece.setPosition(newR, newC);
+    board[newR][newC].setPiece(piece, newR, newC);
+    board[oldR][oldC].setNull();
+    return true;
+}
 	
 
 	/**
@@ -660,17 +602,6 @@ public class board {
 	 * @see rat
 	 * @see Piece#setStrength(int)
 	 */
-	 public void unkillableRat(Piece piece){
-		if (piece instanceof rat && board[piece.getRow()][piece.getColumn()].getTerrain() == '~'){
-			piece.setStrength(9);
-			piece.cannotEat = true;
-			System.out.println("rat unkillable");
-		}
-		else if(piece instanceof rat && !(board[piece.getRow()][piece.getColumn()].getTerrain() == '~')){
-			piece.setStrength(1);
-			piece.cannotEat = false;
-			System.out.println("rat killable");
-		}
-	 }
+
 	
 }

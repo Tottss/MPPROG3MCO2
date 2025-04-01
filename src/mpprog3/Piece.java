@@ -39,6 +39,8 @@ public class Piece {
 
 	public boolean cannotEat;
 
+	protected char currentTerrain;
+
     /**
      * Constructs a new game piece with specified attributes.
      * 
@@ -139,23 +141,27 @@ public class Piece {
 	 * @param piece The target piece to be captured.
 	 * @return true if the piece is captured, false otherwise.
 	 */
-	public boolean capture (Piece piece) { // only captures, doesn't update position
-		// return true if piece gets captured, false if piece doesn't get captured
-		
-		if (piece.getWeak()) {
-			piece.setDead();
-			return true;
+	public boolean capture(Piece target) {
+		// Check if this capture is allowed by both pieces
+		if (!target.canBeCapturedBy(this) || !this.canCapture(target)) {
+			return false;
 		}
-		
-		else
-			if (this.isStronger(piece)) {
-				piece.setDead();
-				return true;
-			}
-			else
-				return false;
+		return this.getStrength() >= target.getStrength();
 	}
 	
+	public boolean canCapture(Piece target) {
+        // Default capture rules - can capture equal or weaker pieces
+        return this.getStrength() >= target.getStrength();
+    }
+
+	public boolean isInWater() {
+        return this.getCurrentTerrain() == '~';
+    }
+	
+    public boolean canBeCapturedBy(Piece attacker) {
+        // Default rules - can be captured by equal or stronger pieces
+        return attacker.getStrength() >= this.getStrength();
+    }
 	/**
 	 * Determines if this piece is stronger than the given piece.
 	 *
@@ -192,6 +198,15 @@ public class Piece {
 		weak = true;
 	}
 	
+	public char getCurrentTerrain() {
+        return currentTerrain;
+    }
+
+    public void setCurrentTerrain(char terrain) {
+        this.currentTerrain = terrain;
+    }
+
+
 
 	/**
 	 * Removes the weakened status of the piece.
