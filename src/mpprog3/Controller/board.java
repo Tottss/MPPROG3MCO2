@@ -1,6 +1,7 @@
-package mpprog3;
+package mpprog3.Controller;
 
 import java.util.*;
+import mpprog3.Model.*;
 /**
  * Represents the game board for Jungle King, managing the 7x9 grid and game state.
  * <p>
@@ -348,7 +349,8 @@ public boolean movePiece(Piece piece, int newR, int newC) {
  * @see #isLakeColEmpty(int, int)
  */
 	public boolean isValidMove (Piece piece, int newR, int newC) { // checks if piece move is valid
-		
+		if (piece == null)
+			return false;
 		int currR = piece.getRow(), currC = piece.getColumn();
 		String move;
 		// switch (m) {

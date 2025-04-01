@@ -1,4 +1,4 @@
-package mpprog3;
+package mpprog3.Model;
 /**
  * Represents the Lion piece in the Jungle King game.
  * 

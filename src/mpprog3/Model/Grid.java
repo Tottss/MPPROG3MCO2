@@ -1,4 +1,4 @@
-package mpprog3;
+package mpprog3.Model;
 /**
  * Represents a single cell in the game board grid for Jungle King.
  * <p>

@@ -1,9 +1,10 @@
-package mpprog3;
+package mpprog3.Viewer;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import mpprog3.Model.*;
 
 /**
  * The animal selection screen for Jungle King game where players choose their starting animals.

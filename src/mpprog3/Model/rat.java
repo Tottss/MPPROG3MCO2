@@ -1,4 +1,4 @@
-package mpprog3;
+package mpprog3.Model;
 /**
  * Represents the Rat piece in the Jungle game.
  * The Rat is the weakest piece (strength 1) but has special abilities:

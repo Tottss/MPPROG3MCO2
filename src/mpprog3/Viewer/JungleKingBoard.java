@@ -1,10 +1,12 @@
-package mpprog3;
+package mpprog3.Viewer;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.*;
+import mpprog3.Controller.*;
+import mpprog3.Model.*;
 
 
 /**

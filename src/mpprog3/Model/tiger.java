@@ -1,4 +1,4 @@
-package mpprog3;
+package mpprog3.Model;
 /**
  * Represents the Tiger piece in the Jungle game.
  * The Tiger is a strong piece (strength 6) with special movement capabilities:

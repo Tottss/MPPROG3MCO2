@@ -1,4 +1,4 @@
-package mpprog3;
+package mpprog3.Viewer;
 
 import javax.swing.*;
 
