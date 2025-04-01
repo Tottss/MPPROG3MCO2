@@ -405,7 +405,7 @@ public class board {
 	public boolean isValidMove (Piece piece, int newR, int newC) { // checks if piece move is valid
 		
 		int currR = piece.getRow(), currC = piece.getColumn();
-		
+		String move;
 		// switch (m) {
 			// case "W":
 				// newR--;
@@ -428,7 +428,7 @@ public class board {
 			
 		if (determineMove(currR, currC, newR, newC).equals("null")) // if move is not single-tile, or crossing lake
 			return false;
-		
+		move = determineMove(currR, currC, newR, newC);
 		Grid targetTile = board[newR][newC];
 		
 		if (isRestrictedTile(piece, newR, newC)) // if targetTile is a friendly trap or home base
@@ -446,13 +446,13 @@ public class board {
 			
 		
 		// if piece can cross but lake row/col is occupied with ratR
-		if (targetTile.getObject().equals('~') && piece.canCross() && !isLakeRowEmpty(newR)){
-			System.out.println("piece cant crosses lake");
+		if (targetTile.getObject().equals('~') && piece.canCross() && !isLakeRowEmpty(newR) && (move.equalsIgnoreCase("a") || move.equalsIgnoreCase("d"))){
+			System.out.println("rat in lake row");
 			return false;
 		}
 		
-		if (targetTile.getObject().equals('~') && piece.canCross() && !isLakeColEmpty(newR, currC)){
-			System.out.println("piece crosses lake");
+		if (targetTile.getObject().equals('~') && piece.canCross() && !isLakeColEmpty(newR, currC) && (move.equalsIgnoreCase("s") || move.equalsIgnoreCase("w"))){
+			System.out.println("rat in lake col");
 			return false;
 		}
 
