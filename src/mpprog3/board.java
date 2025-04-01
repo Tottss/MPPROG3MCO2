@@ -314,7 +314,6 @@ public class board {
 			}
 		
 		}
-		else{
 		piece.setPosition(newR, newC); // update positions
 		// after moving, set the old position back to its original object
 		
@@ -323,9 +322,7 @@ public class board {
 		board[newR][newC].setPiece(piece, newR, newC); // update object on board to its new position
 		board[oldR][oldC].setNull();
 		
-		return true;
-		}
-		return false;
+		return valid;
 		
 	}
 	
